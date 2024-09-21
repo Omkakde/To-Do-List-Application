@@ -1,0 +1,120 @@
+<div class="container">
+  <div class="row">
+    <div class="col-6 card p-0">
+      <h1 class="card title">To-Do List</h1>
+      <h3 class="card subtitle">A place to store your to do's.</h3>
+      <div>
+        @for (t of allTasks; track $index) { @if(t.completed ===true) {
+        <p style="text-decoration: line-through">
+          {{ $index + 1 }}.
+          {{ t.task }}
+          ({{ t.duration | number : "1.2" }} hours)
+          <span
+            [ngStyle]="{
+              color:
+                t.priority == 'high'
+                  ? 'crimson' 
+                  : t.priority == 'medium'
+                  ? 'lightgreen'
+                  : t.priority == 'low'
+                  ? 'goldenrod'
+                  : 'initial'
+            }"
+          >
+            @if(t.priority=="high") { High Priority &#8607; } 
+            @else if(t.priority=="medium"){Medium Priority &#8605;}
+            @else if (t.priority=="low") { Low Priority &#8609; }
+          </span>
+          <button class="col-1 btn btn-danger" (click)="removeTask(t)">x</button>
+        </p>
+        } @else {
+        <p>
+          {{ $index + 1 }}.
+          <button class="col-2 btn btn-success" (click)="updateCompleted(t)">Complete</button>
+          {{ t.task }} ({{ t.duration | number : "1.2" }} hours)
+          <span
+            [ngStyle]="{
+              color:
+              t.priority == 'high'
+                  ? 'crimson' 
+                  : t.priority == 'medium'
+                  ? 'lightgreen'
+                  : t.priority == 'low'
+                  ? 'goldenrod'
+                  : 'initial'
+            }"
+          >
+          @if(t.priority=="high") { High Priority &#8607; } 
+          @else if(t.priority=="medium"){Medium Priority &#8605;}
+          @else if (t.priority=="low") { Low Priority &#8609; }
+          </span>
+          <button class="col-1 btn btn-danger" (click)="removeTask(t)">x</button>
+        </p>
+        }
+        <p>Notes: {{ t.notes }}</p>
+        } @if(allTasks.length == 0){
+        <p class="col-12">CONGRATS!</p>
+        <p class="col-12">No tasks to complete!</p>
+        }
+        <form (ngSubmit)="addTask($event)">
+          <h1>New Task</h1>
+          <label for="name">Task:</label>
+          <p>
+            <input
+              placeholder="Please enter a new task"
+              name="task"
+              type="text"
+              [(ngModel)]="formTasks.task"
+            />
+          </p>
+          <p>
+            <label for="species">Duration:</label>
+          </p>
+          <input
+            placeholder="Estimated hours needed"
+            name="duration"
+            type="text"
+            [(ngModel)]="formTasks.duration"
+          />
+          <p>Please select task priority:</p>
+          <div>
+            <input
+              class="form-check-input"
+              type="radio"
+              name="flexRadioPriority"
+              id="flexRadioPriorityHigh"
+              value="high"
+              [(ngModel)]="formTasks.priority"
+            />
+            <label class="form-check-label" for="flexRadioPriorityHigh"
+              >High</label
+            >
+            <input
+              class="form-check-input"
+              type="radio"
+              name="flexRadioPriority"
+              id="flexRadioPriorityMedium"
+              value="medium"
+              [(ngModel)]="formTasks.priority"
+            />
+            <label class="form-check-label" for="flexRadioPriorityMedium"
+              >Medium</label
+            >
+            <input
+              class="form-check-input"
+              type="radio"
+              name="flexRadioPriority"
+              id="flexRadioPriorityLow"
+              value="low"
+              [(ngModel)]="formTasks.priority"
+            />
+            <label class="form-check-label" for="flexRadioPriorityLow"
+              >Low</label
+            >
+          </div>
+          <button>Add Task</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
